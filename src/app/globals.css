@@ -135,6 +135,12 @@
   }
   
   @page {
-    margin: 0; /* Removes default browser headers/footers */
+    size: A4 portrait;
+    margin: 0mm;
+  }
+  
+  body {
+    margin: 0;
+    padding: 0;
   }
 }

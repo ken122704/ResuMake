@@ -121,7 +121,7 @@ export default function ResumeBuilderPage() {
 
     fetchResume();
   }, [resumeId]);
-
+  
 const handleSave = async () => {
     setIsSaving(true);
     
@@ -178,6 +178,7 @@ const handleSave = async () => {
     
     setIsSaving(false);
   };
+
 
   if (loading) return <div className="p-8 text-center text-slate-500">Loading editor...</div>;
 
@@ -398,9 +399,8 @@ const handleSave = async () => {
           </Card>
 
           {/* RIGHT COLUMN: The Real-Time Preview */}
-          <div className="flex justify-center">
-            {/* A4 Paper Styling Container */}
-            <div className="w-full max-w-[210mm] min-h-[297mm] bg-white p-8 shadow-lg ring-1 ring-slate-200 text-slate-900 print:shadow-none print:ring-0 print:m-0 exact-print">
+          <div className="flex justify-center overflow-x-auto pb-4 w-full print:pb-0 print:block print:overflow-visible">
+            <div id="resume-preview" className="w-full max-w-[210mm] min-h-[297mm] bg-white p-8 shadow-lg ring-1 ring-slate-200 text-slate-900 print:shadow-none print:ring-0 print:m-0 print:min-h-0 print:h-auto exact-print">
               
               {/* Resume Header (Reads directly from state!) */}
               <div className="text-center border-b-2 border-slate-300 pb-4 mb-4">
