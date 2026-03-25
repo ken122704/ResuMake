@@ -127,3 +127,14 @@
     @apply font-sans;
   }
 }
+
+@media print {
+  .exact-print {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  
+  @page {
+    margin: 0; /* Removes default browser headers/footers */
+  }
+}

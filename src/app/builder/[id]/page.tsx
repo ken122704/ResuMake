@@ -187,7 +187,7 @@ const handleSave = async () => {
       <div className="mx-auto max-w-7xl space-y-6">
         
         {/* Top Header & Save Bar */}
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 bg-white p-4 rounded-lg shadow-sm border dark:bg-slate-900 dark:border-slate-800">
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 bg-white p-4 rounded-lg shadow-sm border dark:bg-slate-900 dark:border-slate-800 print:hidden">
           <Input 
             value={title} 
             onChange={(e) => setTitle(e.target.value)}
@@ -199,15 +199,18 @@ const handleSave = async () => {
             <Button className="bg-blue-600 text-white hover:bg-blue-700" onClick={handleSave} disabled={isSaving}>
               {isSaving ? "Saving..." : "Save Resume"}
             </Button>
+            <Button variant="secondary" onClick={() => window.print()}>
+              <svg className="mr-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>
+              Export PDF
+            </Button>
           </div>
         </div>
 
-        {/* NEW: CSS Grid for Side-by-Side Layout */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
           
           {/* LEFT COLUMN: The Form */}
           {/* 'sticky top-8' keeps the form in view even if the resume preview gets very long */}
-          <Card className="lg:sticky lg:top-8">
+          <Card className="lg:sticky lg:top-8 print:hidden">
             <CardHeader className="flex flex-row items-center justify-between border-b pb-4">
               <CardTitle>
                 {step === 1 && "Personal Details"}
@@ -261,7 +264,7 @@ const handleSave = async () => {
               {step === 2 && (
                 <div className="space-y-6">
                   {experiences.map((exp, index) => (
-                    <div key={exp.id} className="p-4 border rounded-md relative bg-white dark:bg-slate-950">
+                    <div key={exp.id} className="p-4 border rounded-md relative bg-white dark:bg-slate-950 print:break-inside-avoid">
                       {/* Delete Button */}
                       {experiences.length > 1 && (
                         <Button variant="ghost" size="sm" className="absolute top-2 right-2 text-red-500" onClick={() => removeExperience(exp.id)}>
@@ -307,7 +310,7 @@ const handleSave = async () => {
               {step === 3 && (
                 <div className="space-y-6">
                   {projects.map((proj) => (
-                    <div key={proj.id} className="p-4 border rounded-md relative bg-white dark:bg-slate-950">
+                    <div key={proj.id} className="p-4 border rounded-md relative bg-white dark:bg-slate-950 print:break-inside-avoid">
                       {projects.length > 1 && (
                         <Button variant="ghost" size="sm" className="absolute top-2 right-2 text-red-500" onClick={() => removeProject(proj.id)}>
                           Remove
@@ -352,7 +355,7 @@ const handleSave = async () => {
                   <div className="space-y-4">
                     <h3 className="font-semibold text-lg border-b pb-2">Education</h3>
                     {educations.map((edu) => (
-                      <div key={edu.id} className="p-4 border rounded-md relative bg-white dark:bg-slate-950">
+                      <div key={edu.id} className="p-4 border rounded-md relative bg-white dark:bg-slate-950 print:break-inside-avoid">
                         {educations.length > 1 && (
                           <Button variant="ghost" size="sm" className="absolute top-2 right-2 text-red-500" onClick={() => removeEducation(edu.id)}>Remove</Button>
                         )}
@@ -397,7 +400,7 @@ const handleSave = async () => {
           {/* RIGHT COLUMN: The Real-Time Preview */}
           <div className="flex justify-center">
             {/* A4 Paper Styling Container */}
-            <div className="w-full max-w-[210mm] min-h-[297mm] bg-white p-8 shadow-lg ring-1 ring-slate-200 text-slate-900">
+            <div className="w-full max-w-[210mm] min-h-[297mm] bg-white p-8 shadow-lg ring-1 ring-slate-200 text-slate-900 print:shadow-none print:ring-0 print:m-0 exact-print">
               
               {/* Resume Header (Reads directly from state!) */}
               <div className="text-center border-b-2 border-slate-300 pb-4 mb-4">
