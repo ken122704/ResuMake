@@ -61,6 +61,13 @@ export default function SignUpPage() {
         </Link>
       </div>
       <Card className="w-full max-w-md">
+        <div className="flex items-center justify-center w-full px-4 mt-8">
+          <img 
+            src="/logo-full.png" 
+            alt="ResuMake Logo" 
+            className="h-20 md:h-24 w-auto max-w-full object-contain" 
+          />
+        </div>
         <CardHeader className="space-y-1 text-center">
           <CardTitle className="text-2xl font-bold">Create an account</CardTitle>
           <CardDescription>Enter your email below to create your account</CardDescription>

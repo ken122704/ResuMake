@@ -8,6 +8,14 @@ export default function Home() {
         
         {/* Hero Section */}
         <div className="space-y-4">
+          {/* Brand Logo with Wordmark */}
+          <div className="flex items-center justify-center -mt-30 mb-2 animate-in fade-in slide-in-from-bottom-4 duration-700">
+            <img 
+              src="/logo-full.png" 
+              alt="ResuMake Logo" 
+              className="h-70 w-auto object-contain" 
+            />
+          </div>
           <h1 className="text-4xl font-extrabold tracking-tight sm:text-5xl md:text-6xl lg:text-7xl">
             Build Your Professional <br className="hidden sm:inline" />
             <span className="text-blue-600 dark:text-blue-500">Resume in Minutes</span>

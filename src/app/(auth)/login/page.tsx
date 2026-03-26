@@ -48,7 +48,6 @@ export default function LoginPage() {
 
   return (
     <main className="flex min-h-screen items-center justify-center bg-slate-50 p-4 dark:bg-slate-950">
-
       <div className="absolute left-4 top-4 md:left-8 md:top-8">
         <Link 
           href="/" 
@@ -61,6 +60,13 @@ export default function LoginPage() {
 
       <Card className="w-full max-w-md">
         <CardHeader className="space-y-1 text-center">
+          <div className="flex items-center justify-center w-full px-4 mt-8">
+            <img 
+              src="/logo-full.png" 
+              alt="ResuMake Logo" 
+              className="h-20 md:h-24 w-auto max-w-full object-contain" 
+            />
+          </div>
           <CardTitle className="text-2xl font-bold">Welcome back</CardTitle>
           <CardDescription>Enter your email and password to access your account</CardDescription>
         </CardHeader>

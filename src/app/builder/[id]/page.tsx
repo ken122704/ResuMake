@@ -217,7 +217,7 @@ const handleSave = async () => {
                     <Input 
                       value={personalDetails.fullName} 
                       onChange={(e) => setPersonalDetails({...personalDetails, fullName: e.target.value})} 
-                      placeholder="Jane Doe" 
+                      placeholder="Enter your full name" 
                     />
                   </div>
                   <div className="space-y-2">
@@ -225,7 +225,7 @@ const handleSave = async () => {
                     <Input 
                       value={personalDetails.email} 
                       onChange={(e) => setPersonalDetails({...personalDetails, email: e.target.value})} 
-                      placeholder="jane@example.com" 
+                      placeholder="email@example.com" 
                     />
                   </div>
                   <div className="space-y-2">
@@ -233,7 +233,7 @@ const handleSave = async () => {
                     <Input 
                       value={personalDetails.phone} 
                       onChange={(e) => setPersonalDetails({...personalDetails, phone: e.target.value})} 
-                      placeholder="+1 (555) 000-0000" 
+                      placeholder="+63 912 345 6789" 
                     />
                   </div>
                   <div className="space-y-2">
@@ -241,7 +241,7 @@ const handleSave = async () => {
                     <Input 
                       value={personalDetails.location} 
                       onChange={(e) => setPersonalDetails({...personalDetails, location: e.target.value})} 
-                      placeholder="San Francisco, CA" 
+                      placeholder="Manila, Philippines" 
                     />
                   </div>
                 </div>
@@ -304,7 +304,7 @@ const handleSave = async () => {
                       )}
                       
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2">
-                        <div className="space-y-2"><Label>Project Name</Label><Input value={proj.name} onChange={(e) => updateProject(proj.id, "name", e.target.value)} placeholder="Hanap Web App" /></div>
+                        <div className="space-y-2"><Label>Project Name</Label><Input value={proj.name} onChange={(e) => updateProject(proj.id, "name", e.target.value)} placeholder="Enter project name" /></div>
                         <div className="space-y-2"><Label>Technologies Used</Label><Input value={proj.technologies} onChange={(e) => updateProject(proj.id, "technologies", e.target.value)} placeholder="React, Firebase, Tailwind" /></div>
                         <div className="space-y-2 md:col-span-2"><Label>Project Link (Optional)</Label><Input value={proj.link} onChange={(e) => updateProject(proj.id, "link", e.target.value)} placeholder="https://github.com/yourusername/project" /></div>
                         
@@ -324,7 +324,7 @@ const handleSave = async () => {
                           <Textarea 
                             value={proj.description} 
                             onChange={(e) => updateProject(proj.id, "description", e.target.value)} 
-                            placeholder="Developed a full-stack web application to manage a member masterlist..."
+                            placeholder="Developed a full-stack web application that..."
                             className="h-32"
                           />
                         </div>
@@ -346,7 +346,7 @@ const handleSave = async () => {
                           <Button variant="ghost" size="sm" className="absolute top-2 right-2 text-red-500" onClick={() => removeEducation(edu.id)}>Remove</Button>
                         )}
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2">
-                          <div className="space-y-2"><Label>School</Label><Input value={edu.school} onChange={(e) => updateEducation(edu.id, "school", e.target.value)} placeholder="University of Technology" /></div>
+                          <div className="space-y-2"><Label>School</Label><Input value={edu.school} onChange={(e) => updateEducation(edu.id, "school", e.target.value)} placeholder="University of Science and Technology of Southern Philippines" /></div>
                           <div className="space-y-2"><Label>Degree</Label><Input value={edu.degree} onChange={(e) => updateEducation(edu.id, "degree", e.target.value)} placeholder="B.S. Computer Science" /></div>
                           <div className="space-y-2"><Label>Start Date</Label><Input value={edu.startDate} onChange={(e) => updateEducation(edu.id, "startDate", e.target.value)} placeholder="Aug 2019" /></div>
                           <div className="space-y-2"><Label>End Date</Label><Input value={edu.endDate} onChange={(e) => updateEducation(edu.id, "endDate", e.target.value)} placeholder="May 2023" /></div>
@@ -385,7 +385,7 @@ const handleSave = async () => {
 
           {/* RIGHT COLUMN: The Real-Time Preview */}
           <div className="flex justify-center overflow-x-auto pb-4 w-full print:pb-0 print:block print:overflow-visible">
-            <div id="resume-preview" className="w-full max-w-[210mm] min-h-[297mm] bg-white p-8 shadow-lg ring-1 ring-slate-200 text-slate-900 print:shadow-none print:ring-0 print:m-0 print:min-h-0 print:h-auto exact-print">
+            <div id="resume-preview" className="relative w-full max-w-[210mm] h-[297mm] max-h-[297mm] overflow-hidden bg-white p-8 shadow-lg ring-1 ring-slate-200 text-slate-900 print:shadow-none print:ring-0 print:m-0 print:h-[297mm] print:max-h-[297mm] print:overflow-hidden exact-print">
               
               {/* Resume Header (Reads directly from state!) */}
               <div className="text-center border-b-2 border-slate-300 pb-4 mb-4">
