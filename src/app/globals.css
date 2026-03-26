@@ -136,11 +136,24 @@
   
   @page {
     size: A4 portrait;
-    margin: 0mm;
+    margin: 0mm !important;
   }
   
-  body {
-    margin: 0;
-    padding: 0;
+  html, body {
+    width: 210mm !important;
+    height: 297mm !important;
+    overflow: hidden !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  #resume-preview {
+    page-break-after: avoid !important;
+    page-break-before: avoid !important;
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+    height: 297mm !important;
+    max-height: 297mm !important;
+    overflow: hidden !important;
   }
 }

@@ -385,35 +385,31 @@ const handleSave = async () => {
 
           {/* RIGHT COLUMN: The Real-Time Preview */}
           <div className="flex justify-center overflow-x-auto pb-4 w-full print:pb-0 print:block print:overflow-visible">
-            <div id="resume-preview" className="relative w-full max-w-[210mm] h-[297mm] max-h-[297mm] overflow-hidden bg-white p-8 shadow-lg ring-1 ring-slate-200 text-slate-900 print:shadow-none print:ring-0 print:m-0 print:h-[297mm] print:max-h-[297mm] print:overflow-hidden exact-print">
+            <div id="resume-preview" className="relative w-full max-w-[210mm] h-[297mm] max-h-[297mm] overflow-hidden bg-white p-4 sm:p-6 shadow-lg ring-1 ring-slate-200 text-slate-900 font-serif text-[11pt] leading-snug print:shadow-none print:ring-0 print:m-0 print:h-[297mm] print:max-h-[297mm] print:overflow-hidden print:break-inside-avoid print:p-6 exact-print">
               
-              {/* Resume Header (Reads directly from state!) */}
-              <div className="text-center border-b-2 border-slate-300 pb-4 mb-4">
-                <h1 className="text-3xl font-serif font-bold uppercase tracking-widest text-slate-900">
+              {/* Resume Header */}
+              <div className="text-center mb-10">
+                <h1 className="text-2xl font-bold mb-1 text-slate-900">
                   {personalDetails.fullName || "Your Name"}
                 </h1>
                 
-                <div className="flex flex-wrap justify-center gap-x-2 gap-y-1 mt-2 text-sm text-slate-600">
+                <div className="flex flex-wrap justify-center gap-x-2 gap-y-1 mt-1 text-sm text-slate-700">
                   {personalDetails.email && <span>{personalDetails.email}</span>}
-                  
-                  {/* Render a dot separator if both email and phone exist */}
                   {personalDetails.email && personalDetails.phone && <span>•</span>}
                   {personalDetails.phone && <span>{personalDetails.phone}</span>}
-                  
-                  {/* Render a dot separator if location exists and either email or phone exists */}
                   {(personalDetails.email || personalDetails.phone) && personalDetails.location && <span>•</span>}
                   {personalDetails.location && <span>{personalDetails.location}</span>}
                 </div>
               </div>
 
               {/* Dynamic Body */}
-              <div className="mt-6 text-left space-y-6">
+              <div className="mt-4 text-left space-y-3">
                 
-                {/* Render Experience if there is data */}
+                {/* Render Experience */}
                 {experiences.some(exp => exp.company || exp.position) && (
                   <div>
-                    <h2 className="text-lg font-bold border-b border-slate-300 mb-2 uppercase tracking-wider text-slate-800">Experience</h2>
-                    <div className="space-y-4">
+                    <h2 className="text-sm font-bold uppercase border-b border-slate-300 mb-1 text-slate-800">Experience</h2>
+                    <div className="space-y-2">
                       {experiences.map((exp) => (
                         <div key={exp.id}>
                           <div className="flex justify-between font-bold text-slate-900">
@@ -421,7 +417,7 @@ const handleSave = async () => {
                             <span>{exp.startDate} {exp.startDate && exp.endDate && "-"} {exp.endDate}</span>
                           </div>
                           <div className="italic text-slate-700">{exp.company}</div>
-                          <div className="mt-1 text-sm text-slate-600 whitespace-pre-line">
+                          <div className="text-[10.5pt] text-slate-700 whitespace-pre-line leading-tight mt-0.5">
                             {exp.description}
                           </div>
                         </div>
@@ -430,19 +426,20 @@ const handleSave = async () => {
                   </div>
                 )}
 
-                {/* Render Projects if there is data */}
+                {/* Render Projects */}
                 {projects.some(proj => proj.name || proj.technologies) && (
                   <div>
-                    <h2 className="text-lg font-bold border-b border-slate-300 mb-2 uppercase tracking-wider text-slate-800">Projects</h2>
-                    <div className="space-y-4">
+                    {/* Standardized Header */}
+                    <h2 className="text-sm font-bold uppercase border-b border-slate-300 mb-1 text-slate-800">Projects</h2>
+                    <div className="space-y-2">
                       {projects.map((proj) => (
                         <div key={proj.id}>
                           <div className="flex justify-between font-bold text-slate-900">
                             <span>{proj.name}</span>
-                            {proj.link && <span className="text-sm font-normal text-blue-600">{proj.link}</span>}
+                            {proj.link && <span className="font-normal text-blue-600">{proj.link}</span>}
                           </div>
-                          <div className="italic text-slate-700 text-sm">{proj.technologies}</div>
-                          <div className="mt-1 text-sm text-slate-600 whitespace-pre-line">
+                          <div className="italic text-slate-700 text-[10.5pt]">{proj.technologies}</div>
+                          <div className="text-[10.5pt] text-slate-700 whitespace-pre-line leading-tight mt-0.5">
                             {proj.description}
                           </div>
                         </div>
@@ -451,11 +448,12 @@ const handleSave = async () => {
                   </div>
                 )}
 
-                {/* Render Education if there is data */}
+                {/* Render Education */}
                 {educations.some(edu => edu.school || edu.degree) && (
                   <div>
-                    <h2 className="text-lg font-bold border-b border-slate-300 mb-2 uppercase tracking-wider text-slate-800">Education</h2>
-                    <div className="space-y-3">
+                    {/* Standardized Header */}
+                    <h2 className="text-sm font-bold uppercase border-b border-slate-300 mb-1 text-slate-800">Education</h2>
+                    <div className="space-y-1.5">
                       {educations.map((edu) => (
                         <div key={edu.id}>
                           <div className="flex justify-between font-bold text-slate-900">
@@ -469,16 +467,16 @@ const handleSave = async () => {
                   </div>
                 )}
 
-                {/* Render Skills if there is data */}
+                {/* Render Skills */}
                 {skills && (
                   <div>
-                    <h2 className="text-lg font-bold border-b border-slate-300 mb-2 uppercase tracking-wider text-slate-800">Skills</h2>
-                    <p className="text-sm text-slate-600 leading-relaxed">{skills}</p>
+                    {/* Standardized Header */}
+                    <h2 className="text-sm font-bold uppercase border-b border-slate-300 mb-1 text-slate-800">Skills</h2>
+                    <p className="text-[10.5pt] text-slate-700 leading-snug whitespace-pre-line">{skills}</p>
                   </div>
                 )}
                 
               </div>
-
             </div>
           </div>
 
