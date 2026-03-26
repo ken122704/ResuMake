@@ -90,14 +90,13 @@ export default function DashboardPage() {
         
         {/* 1. Top Navigation Bar */}
         <div className="flex items-center justify-between pb-6 mb-8 border-b border-slate-200 dark:border-slate-800">
-          {/* Clickable Logo */}
-          <Link href="/" className="transition-opacity hover:opacity-80">
+          <div className="flex items-center">
             <img 
               src="/logo-full.png" 
               alt="ResuMake Logo" 
-              className="h-20 md:h-20 w-auto object-contain" 
+              className="h-20 md:h-20 w-auto object-contain pointer-events-none select-none" 
             />
-          </Link>
+          </div>
           
           <Button variant="ghost" onClick={handleSignOut} className="text-slate-500 hover:text-slate-900 dark:hover:text-white">
             Sign Out
@@ -110,12 +109,9 @@ export default function DashboardPage() {
           <p className="text-slate-500 dark:text-slate-400 mt-1">Welcome back, {userEmail}</p>
         </div>
 
-        {/* LOGIC CHECK: Are there any resumes? */}
         {resumes.length > 0 ? (
           
-          /* Show the standard grid if they have resumes */
           <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3">
-            {/* "Create New Resume" Card */}
             <Link href="/builder/new">
               <Card className="flex h-[200px] cursor-pointer flex-col items-center justify-center border-dashed border-2 hover:border-blue-500 hover:bg-blue-50 dark:hover:bg-slate-900 transition-colors">
                 <CardContent className="flex flex-col items-center justify-center space-y-2 pt-6">
@@ -129,17 +125,15 @@ export default function DashboardPage() {
               </Card>
             </Link>
 
-            {/* Loop through and display existing resumes */}
             {resumes.map((resume) => (
               <Card key={resume.resume_id} className="flex h-[200px] flex-col justify-between group">
                 
-                {/* UPDATED: Flex row to put title and delete button side-by-side */}
                 <CardHeader className="flex flex-row items-start justify-between space-y-0 pb-2">
                   <CardTitle className="text-lg line-clamp-2 pr-2">
                     {resume.title || "Untitled Resume"}
                   </CardTitle>
                   
-                  {/* NEW: Delete Button */}
+                  {/* Delete Button */}
                   <button 
                     onClick={(e) => handleDelete(resume.resume_id, e)}
                     className="text-slate-300 hover:text-red-500 transition-colors p-1"
@@ -162,7 +156,6 @@ export default function DashboardPage() {
 
         ) : (
 
-          /* NEW: Show this beautiful Empty State if they have 0 resumes */
           <div className="flex flex-col items-center justify-center py-24 text-center bg-white shadow-sm border border-slate-200 rounded-xl dark:bg-slate-900 dark:border-slate-800">
             <div className="bg-blue-50 text-blue-600 p-6 rounded-full mb-6 dark:bg-blue-900/30 dark:text-blue-400">
               <svg className="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
