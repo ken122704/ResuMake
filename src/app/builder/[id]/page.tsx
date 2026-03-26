@@ -171,11 +171,12 @@ const handleSave = async () => {
   if (loading) return <div className="p-8 text-center text-slate-500">Loading editor...</div>;
 
   return (
-    <main className="min-h-screen bg-slate-50 p-4 md:p-8 dark:bg-slate-950">
-      <div className="w-full px-4 md:px-12 space-y-8">
+    <main className="h-screen max-h-screen overflow-hidden bg-slate-50 dark:bg-slate-950 flex flex-col">
+      {/* THE CONTAINER */}
+      <div className="flex-1 w-full max-w-[1600px] mx-auto px-4 md:px-12 py-6 flex flex-col gap-6 overflow-hidden">
         
         {/* Top Header & Save Bar */}
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 bg-white p-4 rounded-lg shadow-sm border dark:bg-slate-900 dark:border-slate-800 print:hidden">
+        <div className="shrink-0 flex flex-col sm:flex-row items-center justify-between gap-4 bg-white p-4 rounded-lg shadow-sm border dark:bg-slate-900 dark:border-slate-800 print:hidden">
           <Input 
             value={title} 
             onChange={(e) => setTitle(e.target.value)}
@@ -194,197 +195,199 @@ const handleSave = async () => {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+        {/* 2. THE SPLIT GRID */}
+        <div className="flex-1 grid grid-cols-1 lg:grid-cols-2 gap-8 overflow-hidden min-h-0">
           
-          {/* LEFT COLUMN: The Form */}
-          <Card className="lg:sticky lg:top-8 print:hidden">
-            <CardHeader className="flex flex-row items-center justify-between border-b pb-4">
-              <CardTitle>
-                {step === 1 && "Personal Details"}
-                {step === 2 && "Work Experience"}
-                {step === 3 && "Projects"}
-                {step === 4 && "Education & Skills"}
-              </CardTitle>
-              <div className="text-sm font-medium text-slate-500">Step {step} of 4</div>
-            </CardHeader>
-            <CardContent className="pt-6">
-              
-              {/* STEP 1: Personal Details UI */}
-              {step === 1 && (
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div className="space-y-2">
-                    <Label>Full Name</Label>
-                    <Input 
-                      value={personalDetails.fullName} 
-                      onChange={(e) => setPersonalDetails({...personalDetails, fullName: e.target.value})} 
-                      placeholder="Enter your full name" 
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <Label>Email Address</Label>
-                    <Input 
-                      value={personalDetails.email} 
-                      onChange={(e) => setPersonalDetails({...personalDetails, email: e.target.value})} 
-                      placeholder="email@example.com" 
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <Label>Phone Number</Label>
-                    <Input 
-                      value={personalDetails.phone} 
-                      onChange={(e) => setPersonalDetails({...personalDetails, phone: e.target.value})} 
-                      placeholder="+63 912 345 6789" 
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <Label>Location</Label>
-                    <Input 
-                      value={personalDetails.location} 
-                      onChange={(e) => setPersonalDetails({...personalDetails, location: e.target.value})} 
-                      placeholder="Manila, Philippines" 
-                    />
-                  </div>
-                </div>
-              )}
-              
-              {/* STEP 2: Work Experience */}
-              {step === 2 && (
-                <div className="space-y-6">
-                  {experiences.map((exp, index) => (
-                    <div key={exp.id} className="p-4 border rounded-md relative bg-white dark:bg-slate-950 print:break-inside-avoid">
-                      {experiences.length > 1 && (
-                        <Button variant="ghost" size="sm" className="absolute top-2 right-2 text-red-500" onClick={() => removeExperience(exp.id)}>
-                          Remove
-                        </Button>
-                      )}
-                      
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2">
-                        <div className="space-y-2"><Label>Company</Label><Input value={exp.company} onChange={(e) => updateExperience(exp.id, "company", e.target.value)} placeholder="Google" /></div>
-                        <div className="space-y-2"><Label>Position</Label><Input value={exp.position} onChange={(e) => updateExperience(exp.id, "position", e.target.value)} placeholder="Software Engineer" /></div>
-                        <div className="space-y-2"><Label>Start Date</Label><Input value={exp.startDate} onChange={(e) => updateExperience(exp.id, "startDate", e.target.value)} placeholder="Jan 2023" /></div>
-                        <div className="space-y-2"><Label>End Date</Label><Input value={exp.endDate} onChange={(e) => updateExperience(exp.id, "endDate", e.target.value)} placeholder="Present" /></div>
-                        
-                        <div className="md:col-span-2 space-y-2">
-                          <div className="flex justify-between items-center">
-                            <Label>Description</Label>
-                            {/* The AI Button (We will wire this up next!) */}
-                            <Button 
-                              variant="outline" 
-                              size="sm" 
-                              onClick={() => enhanceDescription(exp.id, 'experience', exp.description)}
-                              disabled={isGenerating === exp.id}
-                              className="h-7 text-blue-600 border-blue-200 bg-blue-50 hover:bg-blue-100 dark:bg-blue-900/20 dark:border-blue-800"
-                            >
-                              {isGenerating === exp.id ? "✨ Generating..." : "✨ Enhance with AI"}
-                            </Button>
-                          </div>
-                          <Textarea 
-                            value={exp.description} 
-                            onChange={(e) => updateExperience(exp.id, "description", e.target.value)} 
-                            placeholder="Describe your responsibilities and achievements..."
-                            className="h-32"
-                          />
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                  <Button variant="outline" className="w-full border-dashed" onClick={addExperience}>+ Add Another Job</Button>
-                </div>
-              )}
-              
-              {/* STEP 3: Projects */}
-              {step === 3 && (
-                <div className="space-y-6">
-                  {projects.map((proj) => (
-                    <div key={proj.id} className="p-4 border rounded-md relative bg-white dark:bg-slate-950 print:break-inside-avoid">
-                      {projects.length > 1 && (
-                        <Button variant="ghost" size="sm" className="absolute top-2 right-2 text-red-500" onClick={() => removeProject(proj.id)}>
-                          Remove
-                        </Button>
-                      )}
-                      
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2">
-                        <div className="space-y-2"><Label>Project Name</Label><Input value={proj.name} onChange={(e) => updateProject(proj.id, "name", e.target.value)} placeholder="Enter project name" /></div>
-                        <div className="space-y-2"><Label>Technologies Used</Label><Input value={proj.technologies} onChange={(e) => updateProject(proj.id, "technologies", e.target.value)} placeholder="React, Firebase, Tailwind" /></div>
-                        <div className="space-y-2 md:col-span-2"><Label>Project Link (Optional)</Label><Input value={proj.link} onChange={(e) => updateProject(proj.id, "link", e.target.value)} placeholder="https://github.com/yourusername/project" /></div>
-                        
-                        <div className="md:col-span-2 space-y-2">
-                          <div className="flex justify-between items-center">
-                            <Label>Description</Label>
-                            <Button 
-                              variant="outline" 
-                              size="sm" 
-                              onClick={() => enhanceDescription(proj.id, 'project', proj.description)}
-                              disabled={isGenerating === proj.id}
-                              className="h-7 text-blue-600 border-blue-200 bg-blue-50 hover:bg-blue-100 dark:bg-blue-900/20 dark:border-blue-800"
-                            >
-                              {isGenerating === proj.id ? "✨ Generating..." : "✨ Enhance with AI"}
-                            </Button>
-                          </div>
-                          <Textarea 
-                            value={proj.description} 
-                            onChange={(e) => updateProject(proj.id, "description", e.target.value)} 
-                            placeholder="Developed a full-stack web application that..."
-                            className="h-32"
-                          />
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                  <Button variant="outline" className="w-full border-dashed" onClick={addProject}>+ Add Another Project</Button>
-                </div>
-              )}
-              
-              {/* STEP 4: Education & Skills */}
-              {step === 4 && (
-                <div className="space-y-8">
-                  <div className="space-y-4">
-                    <h3 className="font-semibold text-lg border-b pb-2">Education</h3>
-                    {educations.map((edu) => (
-                      <div key={edu.id} className="p-4 border rounded-md relative bg-white dark:bg-slate-950 print:break-inside-avoid">
-                        {educations.length > 1 && (
-                          <Button variant="ghost" size="sm" className="absolute top-2 right-2 text-red-500" onClick={() => removeEducation(edu.id)}>Remove</Button>
-                        )}
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2">
-                          <div className="space-y-2"><Label>School</Label><Input value={edu.school} onChange={(e) => updateEducation(edu.id, "school", e.target.value)} placeholder="University of Science and Technology of Southern Philippines" /></div>
-                          <div className="space-y-2"><Label>Degree</Label><Input value={edu.degree} onChange={(e) => updateEducation(edu.id, "degree", e.target.value)} placeholder="B.S. Computer Science" /></div>
-                          <div className="space-y-2"><Label>Start Date</Label><Input value={edu.startDate} onChange={(e) => updateEducation(edu.id, "startDate", e.target.value)} placeholder="Aug 2019" /></div>
-                          <div className="space-y-2"><Label>End Date</Label><Input value={edu.endDate} onChange={(e) => updateEducation(edu.id, "endDate", e.target.value)} placeholder="May 2023" /></div>
-                        </div>
-                      </div>
-                    ))}
-                    <Button variant="outline" className="w-full border-dashed" onClick={addEducation}>+ Add Another Degree</Button>
-                  </div>
-
-                  <div className="space-y-4 pt-4">
-                    <h3 className="font-semibold text-lg border-b pb-2">Skills</h3>
+          {/* LEFT COLUMN: The Form  */}
+          <div className="h-full overflow-y-auto pb-32 pr-2 custom-scrollbar print:hidden">
+            <Card>
+              <CardHeader className="flex flex-row items-center justify-between border-b pb-4">
+                <CardTitle>
+                  {step === 1 && "Personal Details"}
+                  {step === 2 && "Work Experience"}
+                  {step === 3 && "Projects"}
+                  {step === 4 && "Education & Skills"}
+                </CardTitle>
+                <div className="text-sm font-medium text-slate-500">Step {step} of 4</div>
+              </CardHeader>
+              <CardContent className="pt-6">
+                
+                {/* STEP 1: Personal Details UI */}
+                {step === 1 && (
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="space-y-2">
-                      <Label>Core Competencies</Label>
-                      <Textarea 
-                        value={skills} 
-                        onChange={(e) => setSkills(e.target.value)} 
-                        placeholder="React, Next.js, TypeScript, Node.js (Separate with commas)"
+                      <Label>Full Name</Label>
+                      <Input 
+                        value={personalDetails.fullName} 
+                        onChange={(e) => setPersonalDetails({...personalDetails, fullName: e.target.value})} 
+                        placeholder="Enter your full name" 
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <Label>Email Address</Label>
+                      <Input 
+                        value={personalDetails.email} 
+                        onChange={(e) => setPersonalDetails({...personalDetails, email: e.target.value})} 
+                        placeholder="email@example.com" 
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <Label>Phone Number</Label>
+                      <Input 
+                        value={personalDetails.phone} 
+                        onChange={(e) => setPersonalDetails({...personalDetails, phone: e.target.value})} 
+                        placeholder="+63 912 345 6789" 
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <Label>Location</Label>
+                      <Input 
+                        value={personalDetails.location} 
+                        onChange={(e) => setPersonalDetails({...personalDetails, location: e.target.value})} 
+                        placeholder="Manila, Philippines" 
                       />
                     </div>
                   </div>
-                </div>
-              )}
+                )}
+                
+                {/* STEP 2: Work Experience */}
+                {step === 2 && (
+                  <div className="space-y-6">
+                    {experiences.map((exp, index) => (
+                      <div key={exp.id} className="p-4 border rounded-md relative bg-white dark:bg-slate-950 print:break-inside-avoid">
+                        {experiences.length > 1 && (
+                          <Button variant="ghost" size="sm" className="absolute top-2 right-2 text-red-500" onClick={() => removeExperience(exp.id)}>
+                            Remove
+                          </Button>
+                        )}
+                        
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2">
+                          <div className="space-y-2"><Label>Company</Label><Input value={exp.company} onChange={(e) => updateExperience(exp.id, "company", e.target.value)} placeholder="Google" /></div>
+                          <div className="space-y-2"><Label>Position</Label><Input value={exp.position} onChange={(e) => updateExperience(exp.id, "position", e.target.value)} placeholder="Software Engineer" /></div>
+                          <div className="space-y-2"><Label>Start Date</Label><Input value={exp.startDate} onChange={(e) => updateExperience(exp.id, "startDate", e.target.value)} placeholder="Jan 2023" /></div>
+                          <div className="space-y-2"><Label>End Date</Label><Input value={exp.endDate} onChange={(e) => updateExperience(exp.id, "endDate", e.target.value)} placeholder="Present" /></div>
+                          
+                          <div className="md:col-span-2 space-y-2">
+                            <div className="flex justify-between items-center">
+                              <Label>Description</Label>
+                              <Button 
+                                variant="outline" 
+                                size="sm" 
+                                onClick={() => enhanceDescription(exp.id, 'experience', exp.description)}
+                                disabled={isGenerating === exp.id}
+                                className="h-7 text-blue-600 border-blue-200 bg-blue-50 hover:bg-blue-100 dark:bg-blue-900/20 dark:border-blue-800"
+                              >
+                                {isGenerating === exp.id ? "✨ Generating..." : "✨ Enhance with AI"}
+                              </Button>
+                            </div>
+                            <Textarea 
+                              value={exp.description} 
+                              onChange={(e) => updateExperience(exp.id, "description", e.target.value)} 
+                              placeholder="Describe your responsibilities and achievements..."
+                              className="h-32"
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                    <Button variant="outline" className="w-full border-dashed" onClick={addExperience}>+ Add Another Job</Button>
+                  </div>
+                )}
+                
+                {/* STEP 3: Projects */}
+                {step === 3 && (
+                  <div className="space-y-6">
+                    {projects.map((proj) => (
+                      <div key={proj.id} className="p-4 border rounded-md relative bg-white dark:bg-slate-950 print:break-inside-avoid">
+                        {projects.length > 1 && (
+                          <Button variant="ghost" size="sm" className="absolute top-2 right-2 text-red-500" onClick={() => removeProject(proj.id)}>
+                            Remove
+                          </Button>
+                        )}
+                        
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2">
+                          <div className="space-y-2"><Label>Project Name</Label><Input value={proj.name} onChange={(e) => updateProject(proj.id, "name", e.target.value)} placeholder="Enter project name" /></div>
+                          <div className="space-y-2"><Label>Technologies Used</Label><Input value={proj.technologies} onChange={(e) => updateProject(proj.id, "technologies", e.target.value)} placeholder="React, Firebase, Tailwind" /></div>
+                          <div className="space-y-2 md:col-span-2"><Label>Project Link (Optional)</Label><Input value={proj.link} onChange={(e) => updateProject(proj.id, "link", e.target.value)} placeholder="https://github.com/yourusername/project" /></div>
+                          
+                          <div className="md:col-span-2 space-y-2">
+                            <div className="flex justify-between items-center">
+                              <Label>Description</Label>
+                              <Button 
+                                variant="outline" 
+                                size="sm" 
+                                onClick={() => enhanceDescription(proj.id, 'project', proj.description)}
+                                disabled={isGenerating === proj.id}
+                                className="h-7 text-blue-600 border-blue-200 bg-blue-50 hover:bg-blue-100 dark:bg-blue-900/20 dark:border-blue-800"
+                              >
+                                {isGenerating === proj.id ? "✨ Generating..." : "✨ Enhance with AI"}
+                              </Button>
+                            </div>
+                            <Textarea 
+                              value={proj.description} 
+                              onChange={(e) => updateProject(proj.id, "description", e.target.value)} 
+                              placeholder="Developed a full-stack web application that..."
+                              className="h-32"
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                    <Button variant="outline" className="w-full border-dashed" onClick={addProject}>+ Add Another Project</Button>
+                  </div>
+                )}
+                
+                {/* STEP 4: Education & Skills */}
+                {step === 4 && (
+                  <div className="space-y-8">
+                    <div className="space-y-4">
+                      <h3 className="font-semibold text-lg border-b pb-2">Education</h3>
+                      {educations.map((edu) => (
+                        <div key={edu.id} className="p-4 border rounded-md relative bg-white dark:bg-slate-950 print:break-inside-avoid">
+                          {educations.length > 1 && (
+                            <Button variant="ghost" size="sm" className="absolute top-2 right-2 text-red-500" onClick={() => removeEducation(edu.id)}>Remove</Button>
+                          )}
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2">
+                            <div className="space-y-2"><Label>School</Label><Input value={edu.school} onChange={(e) => updateEducation(edu.id, "school", e.target.value)} placeholder="University of Science and Technology of Southern Philippines" /></div>
+                            <div className="space-y-2"><Label>Degree</Label><Input value={edu.degree} onChange={(e) => updateEducation(edu.id, "degree", e.target.value)} placeholder="B.S. Computer Science" /></div>
+                            <div className="space-y-2"><Label>Start Date</Label><Input value={edu.startDate} onChange={(e) => updateEducation(edu.id, "startDate", e.target.value)} placeholder="Aug 2019" /></div>
+                            <div className="space-y-2"><Label>End Date</Label><Input value={edu.endDate} onChange={(e) => updateEducation(edu.id, "endDate", e.target.value)} placeholder="May 2023" /></div>
+                          </div>
+                        </div>
+                      ))}
+                      <Button variant="outline" className="w-full border-dashed" onClick={addEducation}>+ Add Another Degree</Button>
+                    </div>
 
-            </CardContent>
-            
-            {/* Form Navigation Buttons */}
-            <div className="flex justify-between border-t p-4 bg-slate-50 rounded-b-lg dark:bg-slate-900">
-              <Button variant="outline" onClick={() => setStep(step - 1)} disabled={step === 1}>
-                Previous
-              </Button>
-              <Button variant="outline" onClick={() => setStep(step + 1)} disabled={step === 4}>
-                Next Step
-              </Button>
-            </div>
-          </Card>
+                    <div className="space-y-4 pt-4">
+                      <h3 className="font-semibold text-lg border-b pb-2">Skills</h3>
+                      <div className="space-y-2">
+                        <Label>Core Competencies</Label>
+                        <Textarea 
+                          value={skills} 
+                          onChange={(e) => setSkills(e.target.value)} 
+                          placeholder="React, Next.js, TypeScript, Node.js (Separate with commas)"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+              </CardContent>
+              
+              {/* Form Navigation Buttons */}
+              <div className="flex justify-between border-t p-4 bg-slate-50 rounded-b-lg dark:bg-slate-900">
+                <Button variant="outline" onClick={() => setStep(step - 1)} disabled={step === 1}>
+                  Previous
+                </Button>
+                <Button variant="outline" onClick={() => setStep(step + 1)} disabled={step === 4}>
+                  Next Step
+                </Button>
+              </div>
+            </Card>
+          </div>
 
           {/* RIGHT COLUMN: The Real-Time Preview */}
-          <div className="flex justify-center overflow-x-auto pb-4 w-full print:pb-0 print:block print:overflow-visible">
+          <div className="h-full overflow-y-auto overflow-x-auto pb-32 w-full flex justify-center items-start print:pb-0 print:block print:overflow-visible custom-scrollbar">
             <div id="resume-preview" className="relative w-full max-w-[210mm] h-[297mm] max-h-[297mm] overflow-hidden bg-white p-4 sm:p-6 shadow-lg ring-1 ring-slate-200 text-slate-900 font-serif text-[11pt] leading-snug print:shadow-none print:ring-0 print:m-0 print:h-[297mm] print:max-h-[297mm] print:overflow-hidden print:break-inside-avoid print:p-6 exact-print">
               
               {/* Resume Header */}
