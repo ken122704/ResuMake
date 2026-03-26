@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { ChevronLeft } from "lucide-react";
 
 export default function SignUpPage() {
   const [email, setEmail] = useState("");
@@ -51,6 +52,15 @@ export default function SignUpPage() {
 
   return (
     <main className="flex min-h-screen items-center justify-center bg-slate-50 p-4 dark:bg-slate-950">
+      <div className="absolute left-4 top-4 md:left-8 md:top-8">
+        <Link 
+          href="/" 
+          className="flex items-center text-sm font-medium text-slate-500 hover:text-slate-900 transition-colors dark:text-slate-400 dark:hover:text-slate-50"
+        >
+          <ChevronLeft className="mr-2 h-4 w-4" />
+          Back to Home
+        </Link>
+      </div>
       <Card className="w-full max-w-md">
         <CardHeader className="space-y-1 text-center">
           <CardTitle className="text-2xl font-bold">Create an account</CardTitle>
