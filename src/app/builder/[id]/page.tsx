@@ -172,7 +172,7 @@ const handleSave = async () => {
 
   return (
     <main className="min-h-screen bg-slate-50 p-4 md:p-8 dark:bg-slate-950">
-      <div className="mx-auto max-w-7xl space-y-6">
+      <div className="w-full px-4 md:px-12 space-y-8">
         
         {/* Top Header & Save Bar */}
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4 bg-white p-4 rounded-lg shadow-sm border dark:bg-slate-900 dark:border-slate-800 print:hidden">

@@ -86,17 +86,28 @@ export default function DashboardPage() {
 
   return (
     <main className="min-h-screen bg-slate-50 p-8 dark:bg-slate-950">
-      <div className="mx-auto max-w-5xl space-y-8">
+      <div className="w-full px-4 md:px-12 space-y-8">
         
-        {/* Header Section */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-          <div>
-            <h1 className="text-3xl font-bold tracking-tight text-slate-900 dark:text-slate-50">Dashboard</h1>
-            <p className="text-slate-500 dark:text-slate-400">Welcome back, {userEmail}</p>
-          </div>
-          <Button variant="outline" onClick={handleSignOut}>
+        {/* 1. Top Navigation Bar */}
+        <div className="flex items-center justify-between pb-6 mb-8 border-b border-slate-200 dark:border-slate-800">
+          {/* Clickable Logo */}
+          <Link href="/" className="transition-opacity hover:opacity-80">
+            <img 
+              src="/logo-full.png" 
+              alt="ResuMake Logo" 
+              className="h-20 md:h-20 w-auto object-contain" 
+            />
+          </Link>
+          
+          <Button variant="ghost" onClick={handleSignOut} className="text-slate-500 hover:text-slate-900 dark:hover:text-white">
             Sign Out
           </Button>
+        </div>
+
+        {/* 2. Page Title Area */}
+        <div className="mb-8">
+          <h1 className="text-3xl font-bold tracking-tight text-slate-900 dark:text-slate-50">My Workspace</h1>
+          <p className="text-slate-500 dark:text-slate-400 mt-1">Welcome back, {userEmail}</p>
         </div>
 
         {/* LOGIC CHECK: Are there any resumes? */}
