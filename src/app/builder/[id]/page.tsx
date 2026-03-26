@@ -13,15 +13,12 @@ export default function ResumeBuilderPage() {
   const params = useParams();
   const router = useRouter();
   
-  // This captures the "new" or the UUID from the URL
   const resumeId = params.id as string; 
 
-  // Form Navigation State
   const [step, setStep] = useState(1);
   const [loading, setLoading] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
 
-  // Resume Data State (Matches your Supabase database columns)
   const [title, setTitle] = useState("Untitled Resume");
   const [personalDetails, setPersonalDetails] = useState({ fullName: "", email: "", phone: "", location: "" });
 
@@ -43,10 +40,8 @@ export default function ResumeBuilderPage() {
   };
   const removeProject = (id: string) => setProjects(projects.filter(proj => proj.id !== id));
 
-  // Tracks which specific text box is currently waiting for the AI
   const [isGenerating, setIsGenerating] = useState<string | null>(null);
 
-  // The function that calls our new backend API
   const enhanceDescription = async (id: string, type: 'experience' | 'project', currentText: string) => {
     if (!currentText.trim()) {
       alert("Please type a few rough notes first so the AI has something to work with!");
@@ -65,7 +60,6 @@ export default function ResumeBuilderPage() {
 
       const data = await res.json();
 
-      // Instantly swap the rough notes with the AI's professional text
       if (type === 'experience') {
         updateExperience(id, "description", data.text);
       } else if (type === 'project') {
@@ -93,13 +87,11 @@ export default function ResumeBuilderPage() {
   
   useEffect(() => {
     const fetchResume = async () => {
-      // If the URL says "new", we just stop loading and show the blank form
       if (resumeId === "new") {
         setLoading(false);
         return;
       }
 
-      // If there is an ID, fetch the existing data from Supabase
       const { data, error } = await supabase
         .from("resumes")
         .select("*")
@@ -131,7 +123,6 @@ const handleSave = async () => {
       return;
     }
 
-    // Explicitly mapping the state to the exact column names
     const payload = {
       user_id: user.id,
       title: title,
@@ -143,7 +134,6 @@ const handleSave = async () => {
       updated_at: new Date().toISOString(),
     };
 
-    // THE TRAP: This prints the exact package Next.js is about to send
     console.log("🚀 PAYLOAD LEAVING NEXT.JS:", payload);
 
     if (resumeId === "new") {
@@ -155,9 +145,8 @@ const handleSave = async () => {
 
       if (error) {
         console.error("Insert Error:", error);
-        alert(`Failed to save: ${error.message}`); // Keep the error alerts just in case!
+        alert(`Failed to save: ${error.message}`); 
       } else if (data) {
-        // Removed the success alert here
         router.replace(`/builder/${data.resume_id}`);
       }
     } else {
@@ -169,10 +158,9 @@ const handleSave = async () => {
 
       if (error) {
         console.error("Update Error:", error);
-        alert(`Failed to update: ${error.message}`); // Keep the error alerts just in case!
+        alert(`Failed to update: ${error.message}`); 
       } else {
         console.log("✅ WHAT SUPABASE SAVED:", data);
-        // Removed the success alert here too!
       }
     }
     
@@ -184,7 +172,6 @@ const handleSave = async () => {
 
   return (
     <main className="min-h-screen bg-slate-50 p-4 md:p-8 dark:bg-slate-950">
-      {/* We widened max-w-4xl to max-w-7xl to fit two columns comfortably */}
       <div className="mx-auto max-w-7xl space-y-6">
         
         {/* Top Header & Save Bar */}
@@ -210,7 +197,6 @@ const handleSave = async () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
           
           {/* LEFT COLUMN: The Form */}
-          {/* 'sticky top-8' keeps the form in view even if the resume preview gets very long */}
           <Card className="lg:sticky lg:top-8 print:hidden">
             <CardHeader className="flex flex-row items-center justify-between border-b pb-4">
               <CardTitle>
@@ -266,7 +252,6 @@ const handleSave = async () => {
                 <div className="space-y-6">
                   {experiences.map((exp, index) => (
                     <div key={exp.id} className="p-4 border rounded-md relative bg-white dark:bg-slate-950 print:break-inside-avoid">
-                      {/* Delete Button */}
                       {experiences.length > 1 && (
                         <Button variant="ghost" size="sm" className="absolute top-2 right-2 text-red-500" onClick={() => removeExperience(exp.id)}>
                           Remove

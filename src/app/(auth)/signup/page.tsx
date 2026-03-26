@@ -30,7 +30,6 @@ export default function SignUpPage() {
     if (error) {
       setError(error.message);
     } else {
-      // If email confirmations are turned off in Supabase, this works instantly.
       setMessage("Account created successfully! Redirecting...");
       setTimeout(() => router.push("/dashboard"), 1500);
     }
