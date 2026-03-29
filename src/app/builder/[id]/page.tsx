@@ -388,7 +388,16 @@ const handleSave = async () => {
 
           {/* RIGHT COLUMN: The Real-Time Preview */}
           <div className="h-full overflow-y-auto overflow-x-auto pb-32 w-full flex justify-center items-start print:pb-0 print:block print:overflow-visible custom-scrollbar">
-            <div id="resume-preview" className="relative w-full max-w-[210mm] h-[297mm] max-h-[297mm] overflow-hidden bg-white p-4 sm:p-6 shadow-lg ring-1 ring-slate-200 text-slate-900 font-serif text-[11pt] leading-snug print:shadow-none print:ring-0 print:m-0 print:h-[297mm] print:max-h-[297mm] print:overflow-hidden print:break-inside-avoid print:p-6 exact-print">
+            <div id="resume-preview"
+              className="
+                relative w-full max-w-[210mm]
+                min-h-[297mm] overflow-visible
+                print:h-[297mm] print:max-h-[297mm] print:overflow-hidden
+                bg-white p-4 sm:p-6 shadow-lg ring-1 ring-slate-200
+                text-slate-900 font-serif text-[11pt] leading-snug
+                print:shadow-none print:ring-0 print:m-0
+                print:break-inside-avoid print:p-6 exact-print
+              ">
               
               {/* Resume Header */}
               <div className="text-center mb-10">
